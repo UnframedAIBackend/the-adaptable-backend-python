@@ -2,6 +2,7 @@ from src.core.database.i_repository import IRepository
 from src.core.database.database_engine import DatabaseEngine
 from src.core.configuration.configuration import config
 from src.core.database.sql.sql_repository import SQLRepository
+from src.core.database.nosql.nosql_repository import NoSQLRepository
 
 class NoteRepository:
     def __init__(self):
@@ -11,8 +12,7 @@ class NoteRepository:
         if db_engine == DatabaseEngine.SQL:
             self.repository = SQLRepository("notes")
         elif db_engine == DatabaseEngine.NOSQL:
-            # To be implemented
-            pass
+            self.repository = NoSQLRepository("notes")
 
     async def find_all(self):
         return await self.repository.find_all()
