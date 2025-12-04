@@ -23,7 +23,6 @@ class FastAPIServerFactory:
             allow_headers=["*"],
         )
 
-        # Register Routes
         app.include_router(api_router)
 
         return FastAPIServer(app)

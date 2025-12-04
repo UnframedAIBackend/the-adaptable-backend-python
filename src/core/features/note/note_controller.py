@@ -11,5 +11,4 @@ class NoteController:
 
     async def get_notes(self) -> list[NoteDto]:
         notes = await self.note_repository.find_all()
-        # Convert dicts to DTOs if repository returns dicts (SQLAlchemy mappings)
         return [NoteDto(**note) for note in notes]
