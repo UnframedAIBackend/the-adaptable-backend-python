@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 from motor.motor_asyncio import AsyncIOMotorClient
 
-# Load .env file manually
 env_file = Path(".env")
 if env_file.exists():
     with open(env_file) as f:

@@ -19,7 +19,6 @@ class NoSQLRepository(IRepository[T]):
         data["updated_at"] = datetime.now()
         result = await self.collection.insert_one(data)
         data["id"] = str(result.inserted_id)
-        # Remove _id to avoid serialization issues if not handled
         if "_id" in data:
             del data["_id"]
         return data

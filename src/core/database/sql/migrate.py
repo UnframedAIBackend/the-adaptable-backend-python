@@ -11,7 +11,6 @@ async def run_migrations():
     conn = await asyncpg.connect(url)
     try:
         migrations_dir = Path("src/core/database/sql/migrations")
-        # Ensure directory exists
         if not migrations_dir.exists():
             print(f"Migrations directory not found: {migrations_dir}")
             return
