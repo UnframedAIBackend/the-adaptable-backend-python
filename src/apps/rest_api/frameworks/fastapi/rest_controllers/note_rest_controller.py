@@ -1,8 +1,13 @@
 from fastapi import APIRouter
-from .note_dto import NoteDto
+from src.core.features.note.note_dto import NoteDto
+from src.core.features.note.note_controller import NoteController
+from src.core.container.container import container
 
 class NoteRestController:
     def __init__(self) -> None:
+        # Resolve dependencies from the container
+        self.note_controller: NoteController = container.note_controller()
+        
         self.router = APIRouter(prefix="/notes", tags=["notes"])
         self._setup_routes()
 
@@ -16,10 +21,10 @@ class NoteRestController:
         )
 
     async def get_notes(self) -> list[NoteDto]:
-        return [
-            NoteDto(id=1, content="Hello 1"),
-            NoteDto(id=2, content="Hello 2"),
-        ]
+        """
+        Delegates to the Core NoteController.
+        """
+        return self.note_controller.get_notes()
 
 # Instantiate the controller and expose the router
 note_controller = NoteRestController()
