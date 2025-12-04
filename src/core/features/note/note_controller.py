@@ -6,10 +6,10 @@ class NoteController:
     Handles business logic for notes.
     Framework-agnostic.
     """
+    def __init__(self, note_repository):
+        self.note_repository = note_repository
 
-    def get_notes(self) -> list[NoteDto]:
-        # In a real app, this would call a repository
-        return [
-            NoteDto(id=1, content="Hello 1 - from core controller"),
-            NoteDto(id=2, content="Hello 2 - from core controller"),
-        ]
+    async def get_notes(self) -> list[NoteDto]:
+        notes = await self.note_repository.find_all()
+        # Convert dicts to DTOs if repository returns dicts (SQLAlchemy mappings)
+        return [NoteDto(**note) for note in notes]
