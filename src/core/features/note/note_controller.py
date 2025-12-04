@@ -8,7 +8,6 @@ class NoteController:
     """
 
     def get_notes(self) -> list[NoteDto]:
-        # In a real app, this would call a repository
         return [
             NoteDto(id=1, content="Hello 1 - from core controller"),
             NoteDto(id=2, content="Hello 2 - from core controller"),

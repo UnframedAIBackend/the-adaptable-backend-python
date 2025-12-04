@@ -5,7 +5,6 @@ from src.core.container.container import container
 
 class NoteRestController:
     def __init__(self) -> None:
-        # Resolve dependencies from the container
         self.note_controller: NoteController = container.note_controller()
         
         self.router = APIRouter(prefix="/notes", tags=["notes"])
@@ -26,6 +25,5 @@ class NoteRestController:
         """
         return self.note_controller.get_notes()
 
-# Instantiate the controller and expose the router
 note_controller = NoteRestController()
 router = note_controller.router
