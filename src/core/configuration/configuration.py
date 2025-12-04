@@ -26,6 +26,8 @@ class Configuration:
         
         self._config["PORT"] = int(os.getenv("PORT", "3000"))
         self._config["NODE_ENV"] = os.getenv("NODE_ENV", "development")
+        self._config["DATABASE_URL"] = os.getenv("DATABASE_URL")
+        self._config["DATABASE_ENGINE"] = os.getenv("DATABASE_ENGINE")
 
     def get(self, key: str) -> Any:
         return self._config.get(key)

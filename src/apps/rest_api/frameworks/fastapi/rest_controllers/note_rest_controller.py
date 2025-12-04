@@ -24,7 +24,7 @@ class NoteRestController:
         """
         Delegates to the Core NoteController.
         """
-        return self.note_controller.get_notes()
+        return await self.note_controller.get_notes()
 
 # Instantiate the controller and expose the router
 note_controller = NoteRestController()
