@@ -6,13 +6,14 @@ from src.core.database.sql.sql_repository import SQLRepository
 class NoteRepository:
     def __init__(self):
         db_engine = config.get("DATABASE_ENGINE")
-        self.repository: IRepository
         
-        if db_engine == DatabaseEngine.SQL:
+        if db_engine == "postgres" or db_engine == DatabaseEngine.SQL:
             self.repository = SQLRepository("notes")
-        elif db_engine == DatabaseEngine.NOSQL:
+        elif db_engine == "mongodb" or db_engine == DatabaseEngine.NOSQL:
             # To be implemented
             pass
+        else:
+            raise ValueError(f"Unsupported database engine: {db_engine}")
 
     async def find_all(self):
         return await self.repository.find_all()

@@ -2,11 +2,22 @@ import asyncio
 import os
 from pathlib import Path
 import asyncpg
-from src.core.configuration.configuration import config
+
+# Load .env file manually
+env_file = Path(".env")
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            if line.strip() and not line.startswith("#"):
+                try:
+                    key, value = line.strip().split("=", 1)
+                    os.environ[key] = value
+                except ValueError:
+                    continue
 
 async def run_migrations():
     print("Running migrations...")
-    url = config.get("DATABASE_URL").replace("+asyncpg", "")
+    url = os.getenv("DATABASE_URL", "").replace("+asyncpg", "")
     
     conn = await asyncpg.connect(url)
     try:
