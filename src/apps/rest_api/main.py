@@ -1,11 +1,21 @@
-import asyncio
+import uvicorn
 from src.core.configuration.configuration import config
-from src.apps.rest_api.server import Server
+from src.apps.rest_api.frameworks.fastapi.fastapi_server_factory import FastAPIServerFactory
 
-async def main() -> None:
-    server = Server()
-    port = config.get("PORT")
-    await server.run(port=port)
+factory = FastAPIServerFactory()
+server = factory.create()
+app = server.app
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    port = config.get("PORT")
+    env = config.get("NODE_ENV")
+    
+    reload = env == "development"
+    
+    uvicorn.run(
+        "src.apps.rest_api.main:app",
+        host="0.0.0.0",
+        port=port,
+        reload=reload,
+        log_level="info"
+    )
