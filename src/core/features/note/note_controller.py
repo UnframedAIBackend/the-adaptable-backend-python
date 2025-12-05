@@ -1,14 +1,9 @@
 from .note_dto import NoteDto
 
 class NoteController:
-    """
-    Core Note Controller.
-    Handles business logic for notes.
-    Framework-agnostic.
-    """
-    def __init__(self, note_repository):
-        self.note_repository = note_repository
 
-    async def get_notes(self) -> list[NoteDto]:
-        notes = await self.note_repository.find_all()
-        return [NoteDto(**note) for note in notes]
+    def get_notes(self) -> list[NoteDto]:
+        return [
+            NoteDto(id=1, content="Hello 1 - from core controller"),
+            NoteDto(id=2, content="Hello 2 - from core controller"),
+        ]
