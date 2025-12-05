@@ -20,10 +20,7 @@ class NoteRestController:
         )
 
     async def get_notes(self) -> list[NoteDto]:
-        """
-        Delegates to the Core NoteController.
-        """
-        return await self.note_controller.get_notes()
+        return self.note_controller.get_notes()
 
 note_controller = NoteRestController()
 router = note_controller.router
