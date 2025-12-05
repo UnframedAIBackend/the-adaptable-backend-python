@@ -1,9 +1,11 @@
-from .note_dto import NoteDto
+from .note import Note
+from .note_repository import NoteRepository
+
 
 class NoteController:
 
-    def get_notes(self) -> list[NoteDto]:
-        return [
-            NoteDto(id=1, content="Hello 1 - from core controller"),
-            NoteDto(id=2, content="Hello 2 - from core controller"),
-        ]
+    def __init__(self, note_repository: NoteRepository):
+        self.note_repository = note_repository
+
+    async def get_notes(self) -> list[Note]:
+        return await self.note_repository.find_all()
