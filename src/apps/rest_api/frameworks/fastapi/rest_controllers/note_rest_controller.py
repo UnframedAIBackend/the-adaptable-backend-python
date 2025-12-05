@@ -20,9 +20,6 @@ class NoteRestController:
         )
 
     async def get_notes(self) -> list[NoteDto]:
-        """
-        Delegates to the Core NoteController.
-        """
         return self.note_controller.get_notes()
 
 note_controller = NoteRestController()

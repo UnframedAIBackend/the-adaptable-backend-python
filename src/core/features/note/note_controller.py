@@ -1,11 +1,6 @@
 from .note_dto import NoteDto
 
 class NoteController:
-    """
-    Core Note Controller.
-    Handles business logic for notes.
-    Framework-agnostic.
-    """
 
     def get_notes(self) -> list[NoteDto]:
         return [
