@@ -7,6 +7,9 @@ from dataclasses import dataclass
 class EnvConfig(TypedDict, total=False):
     NODE_ENV: Literal["development", "production", "test"]
     PORT: int
+    DATABASE_URL: str
+    DATABASE_ENGINE: str
+    TZ: str
 
 @dataclass
 class EnvVarSchema:
@@ -23,6 +26,9 @@ class Configuration:
         self._env_schema: dict[str, EnvVarSchema] = {
             "NODE_ENV": EnvVarSchema(required=True, type=str),
             "PORT": EnvVarSchema(required=True, type=int),
+            "DATABASE_URL": EnvVarSchema(required=True, type=str),
+            "DATABASE_ENGINE": EnvVarSchema(required=True, type=str),
+            "TZ": EnvVarSchema(required=False, type=str, default="America/Bogota"),
         }
         self._load_env_file()
         self._validate_config()

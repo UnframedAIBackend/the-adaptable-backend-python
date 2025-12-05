@@ -1,38 +1,35 @@
 import asyncio
-import os
 from pathlib import Path
 import asyncpg
+from src.core.configuration.configuration import config
 
-# Load .env file manually
-env_file = Path(".env")
-if env_file.exists():
-    with open(env_file) as f:
-        for line in f:
-            if line.strip() and not line.startswith("#"):
-                try:
-                    key, value = line.strip().split("=", 1)
-                    os.environ[key] = value
-                except ValueError:
-                    continue
 
-async def run_migrations():
-    print("Running migrations...")
-    url = os.getenv("DATABASE_URL", "").replace("+asyncpg", "")
+class SQLMigrate:
+    def __init__(self):
+        self.migrations_dir = Path("src/core/database/sql/migrations")
+        self.database_url = config.get("DATABASE_URL").replace("+asyncpg", "")
     
-    conn = await asyncpg.connect(url)
-    try:
-        migrations_dir = Path("src/core/database/sql/migrations")
-        # Ensure directory exists
-        if not migrations_dir.exists():
-            print(f"Migrations directory not found: {migrations_dir}")
+    async def run(self) -> None:
+        print("Running migrations...")
+        
+        if not self.migrations_dir.exists():
+            print(f"Migrations directory not found: {self.migrations_dir}")
             return
+        
+        conn = await asyncpg.connect(self.database_url)
+        try:
+            for file in sorted(self.migrations_dir.glob("*.sql")):
+                print(f"Running migration: {file.name}")
+                sql = file.read_text()
+                await conn.execute(sql)
+            print("✓ Migrations completed successfully")
+        except Exception as e:
+            print(f"✗ Migration failed: {e}")
+            raise
+        finally:
+            await conn.close()
 
-        for file in sorted(migrations_dir.glob("*.sql")):
-            print(f"Running migration: {file.name}")
-            sql = file.read_text()
-            await conn.execute(sql)
-    finally:
-        await conn.close()
 
 if __name__ == "__main__":
-    asyncio.run(run_migrations())
+    migrate = SQLMigrate()
+    asyncio.run(migrate.run())
