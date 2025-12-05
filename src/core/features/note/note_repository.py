@@ -1,4 +1,3 @@
-from src.core.database.i_repository import IRepository
 from src.core.database.database_engine import DatabaseEngine
 from src.core.configuration.configuration import config
 from src.core.database.sql.sql_repository import SQLRepository
